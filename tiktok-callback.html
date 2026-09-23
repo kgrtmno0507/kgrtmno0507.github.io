@@ -12,13 +12,16 @@ footer{margin-top:3em;font-size:.9rem;color:var(--muted)}
 <h1>TikTok の認可</h1>
 <p id="msg" class="muted">このページは itpass-uploader が TikTok の認可コードを受け取るためのものです。</p>
 <div id="box" style="display:none">
-<p>下のコードをコピーして、Claude の案内どおりに使ってください（数分で無効になります。他の人には見せないでください）。</p>
+<p>✅ TikTok での許可が完了しました。下のコードをコピーして、GitHub の Actions →「TikTok の連携」→「Run workflow」の <code>code</code> に貼って実行してください（数分で無効になります。他の人には見せないでください）。</p>
+<p class="muted">Authorization succeeded. Copy this code into the "TikTok の連携" GitHub Actions workflow to finish connecting the account.</p>
 <textarea id="code" readonly style="width:100%;height:120px;font-size:14px;background:#111a33;color:#eef2ff;border:1px solid #33406b;border-radius:8px;padding:8px"></textarea>
 <p><button id="copy" style="font-size:16px;padding:8px 16px;border-radius:8px;border:0;background:#8fdc5f;color:#0b1226;font-weight:700">コピー</button> <span id="done" class="muted"></span></p>
 </div>
 <script>
 const q = new URLSearchParams(location.search);
 const code = q.get("code"), err = q.get("error");
+let saved = null; try { saved = sessionStorage.getItem("tiktok_state"); } catch {}
+if (code && saved && q.get("state") !== saved) { document.getElementById("msg").textContent = "state が一致しません。もう一度「TikTok と連携する」からやり直してください。"; throw new Error("state mismatch"); }
 if (code) {
   document.getElementById("box").style.display = "block";
   document.getElementById("code").value = code;

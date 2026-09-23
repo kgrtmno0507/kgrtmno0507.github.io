@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok 連携｜itpass-uploader</title><style>
+:root{--bg:#0b1226;--fg:#eef2ff;--muted:#aab4d4;--accent:#8fdc5f;--link:#7dd3fc}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.8}
+main{max-width:720px;margin:0 auto;padding:40px 16px 64px}
+h1{font-size:1.6rem;line-height:1.4}h2{font-size:1.15rem;margin-top:2em;color:var(--accent)}
+a{color:var(--link)}p,li{color:var(--fg)}small,.muted{color:var(--muted)}
+.head{display:flex;gap:16px;align-items:center}.head img{width:88px;height:88px;border-radius:50%}
+footer{margin-top:3em;font-size:.9rem;color:var(--muted)}
+</style></head><body><main>
+<div class="head"><img src="icon.png" alt=""><div><h1>itpass-uploader × TikTok</h1><p class="muted">1日1語ITパスポート｜ずんだもん解説 の運営者専用ツール</p></div></div>
+<h2>できること</h2>
+<ul>
+<li>運営者の TikTok アカウントを連携します（<code>user.info.basic</code>：どのアカウントか確認するだけ）</li>
+<li>毎日作った動画を、TikTok の受信箱に<strong>下書き</strong>として送ります（<code>video.upload</code>）。投稿は運営者が TikTok アプリで確認し、キャプションと「AI 生成コンテンツ」ラベルを付けてから行います</li>
+</ul>
+<p class="muted">Connects the owner's TikTok account (user.info.basic) and sends our daily videos to the owner's TikTok inbox as drafts (video.upload). The owner reviews each draft, adds the caption and the AI-generated label, and posts it manually in the TikTok app.</p>
+<p style="margin:2em 0"><a id="connect" href="#" style="display:inline-block;background:#fe2c55;color:#fff;font-weight:700;font-size:18px;padding:14px 28px;border-radius:10px;text-decoration:none">TikTok と連携する（Connect TikTok）</a></p>
+<p class="muted">連携すると <a href="privacy.html">プライバシーポリシー</a> と <a href="terms.html">利用規約</a> に同意したことになります。連携はいつでも TikTok アプリの「設定とプライバシー → セキュリティ → アプリとサービスの権限」から解除できます。</p>
+<script>
+const CLIENT_KEY = "sbawl6ny6opjd1rgl2";
+const REDIRECT = "https://kgrtmno0507.github.io/tiktok-callback.html";
+document.getElementById("connect").onclick = (e) => {
+  e.preventDefault();
+  const state = crypto.getRandomValues(new Uint32Array(4)).join("-");
+  try { sessionStorage.setItem("tiktok_state", state); } catch {}
+  const p = new URLSearchParams({ client_key: CLIENT_KEY, scope: "user.info.basic,video.upload", response_type: "code", redirect_uri: REDIRECT, state });
+  location.href = "https://www.tiktok.com/v2/auth/authorize/?" + p.toString();
+};
+</script>
+<footer><a href="./">ホーム</a> ・ <a href="privacy.html">プライバシーポリシー</a> ・ <a href="terms.html">利用規約</a></footer></main></body></html>
